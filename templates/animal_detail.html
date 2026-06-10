@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container my-5">
+    <div class="animal-detail-card">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="animal-image-box">
+                    {% if animal.image %}
+                    <img src="{{ animal.image.url }}" class="animal-detail-img" alt="{{ animal.name }}">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <span class="meta-pill mb-3">{{ animal.category.name }}</span>
+                <h1 class="animal-detail-title">{{ animal.name }}</h1>
+
+                {% if animal.scientific_name %}
+                <p class="text-muted"><em>{{ animal.scientific_name }}</em></p>
+                {% endif %}
+
+                <div class="prose">
+                    <p>{{ animal.description }}</p>
+                </div>
+
+                <div class="info-list">
+                    {% if animal.habitat %}
+                    <div class="info-item"><strong>Habitati:</strong> {{ animal.habitat }}</div>
+                    {% endif %}
+
+                    {% if animal.food %}
+                    <div class="info-item"><strong>Ushqimi:</strong> {{ animal.food }}</div>
+                    {% endif %}
+
+                    {% if animal.location %}
+                    <div class="info-item"><strong>Zona ku gjendet:</strong> {{ animal.location }}</div>
+                    {% endif %}
+
+                    {% if animal.protection_status %}
+                    <div class="info-item"><strong>Statusi i mbrojtjes:</strong> {{ animal.protection_status }}</div>
+                    {% endif %}
+                </div>
+
+                <a href="{% url 'animal_list' %}" class="btn btn-secondary mt-2">
+                    ← Kthehu te lista
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

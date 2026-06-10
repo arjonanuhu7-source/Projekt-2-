@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="container my-5">
+    <div class="content-card blog-detail-card">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" class="detail-image" alt="{{ post.title }}">
+        {% endif %}
+
+        <span class="meta-pill mb-3">{{ post.created_at|date:"d M Y" }}</span>
+        <h1 class="page-title">{{ post.title }}</h1>
+
+        <div class="prose mt-4">
+            {{ post.content|linebreaks }}
+        </div>
+
+        <a href="{% url 'blog_list' %}" class="btn btn-outline-success mt-4">
+            ← Kthehu te blogu
+        </a>
+    </div>
+</section>
+{% endblock %}
