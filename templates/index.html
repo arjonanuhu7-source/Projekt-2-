@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header class="hero-section">
+    <div class="container">
+        <span class="eyebrow">Zbulo · Mëso · Mbro</span>
+        <h1>Mirë se vini në FaunaShqip</h1>
+        <p>
+            Zbulo kafshët më interesante që jetojnë në Shqipëri, habitatet e tyre
+            dhe rolin që kanë në natyrën që na rrethon.
+        </p>
+        <a href="{% url 'animal_list' %}" class="btn btn-success">Shiko Kafshët</a>
+    </div>
+</header>
+
+<main class="container my-5">
+    <div class="page-header">
+        <h2 class="section-title">Kategoritë Kryesore</h2>
+        <p class="page-subtitle">Shfleto kafshët sipas grupeve dhe gjej më shpejt speciet që të interesojnë.</p>
+    </div>
+
+    <div class="row g-4">
+        {% for category in categories %}
+        <div class="col-md-4">
+            <div class="card category-card h-100">
+                <div class="card-body">
+
+                    <div class="category-icon">
+                        {% if category.name|lower == "gjitaret" or category.name|lower == "gjitarët" %}
+                            🦌
+                        {% elif category.name|lower == "shpendet" or category.name|lower == "shpendët" %}
+                            🦅
+                        {% elif category.name|lower == "kafshet ujore" or category.name|lower == "kafshët ujore" %}
+                            🐟
+                        {% else %}
+                            🌿
+                        {% endif %}
+                    </div>
+
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description }}</p>
+
+                    <a href="{% url 'animal_list' %}?category={{ category.id }}" class="btn btn-success">
+                        Shiko më shumë
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state">Nuk ka kategori të regjistruara ende.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="page-header mt-5">
+        <h2 class="section-title">Disa specie të përzgjedhura</h2>
+    </div>
+
+    <div class="row g-4">
+        {% for animal in featured_animals %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                {% if animal.image %}
+                <img src="{{ animal.image.url }}" class="card-img-top" alt="{{ animal.name }}">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <span class="meta-pill mb-3">{{ animal.category.name }}</span>
+                    <h5 class="card-title">{{ animal.name }}</h5>
+                    <p class="card-text flex-grow-1">{{ animal.description|truncatewords:18 }}</p>
+
+                    <a href="{% url 'animal_detail' animal.id %}" class="btn btn-success mt-2">
+                        Lexo më shumë
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state">Nuk ka kafshë të regjistruara ende.</div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}

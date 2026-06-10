@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container my-5">
+    <h1 class="text-center section-title">Kafshët në Shqipëri</h1>
+
+    <form method="get" class="row mb-4">
+        <div class="col-md-6 mb-2">
+            <input type="text" name="q" class="form-control" placeholder="Kërko një kafshë..."
+                   value="{{ search_query|default:'' }}">
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <select name="category" class="form-control">
+                <option value="">Të gjitha kategoritë</option>
+
+                {% for category in categories %}
+                <option value="{{ category.id }}"
+                    {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2 mb-2">
+            <button type="submit" class="btn btn-success w-100">Kërko</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for animal in animals %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if animal.image %}
+                <img src="{{ animal.image.url }}" class="card-img-top" alt="{{ animal.name }}">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ animal.name }}</h5>
+                    <p class="card-text">{{ animal.description|truncatewords:22 }}</p>
+                    <p class="text-muted mb-2">
+                        <strong>Kategoria:</strong> {{ animal.category.name }}
+                    </p>
+                    <a href="{% url 'animal_detail' animal.id %}" class="btn btn-success">
+                        Shiko më shumë
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Nuk u gjet asnjë kafshë.</p>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}
